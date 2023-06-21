@@ -1,6 +1,10 @@
 package org.bedu;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,4 +63,44 @@ public class DatabaseTest {
 
         assertEquals(db.size(), 0);
     }
+
+    @Test
+    @DisplayName("Update a product by id")
+    public void updateById() {
+        db.insert(new Product(1, "Coca Cola 3lt"));
+        db.insert(new Product(2, "Gansito"));
+
+        Product newProduct = new Product(1, "Pepsi 3lt");
+        db.updateById(1, newProduct);
+
+        Product p = db.getById(1);
+
+        assertEquals(p.getId(), newProduct.getId());
+        assertEquals(p.getName(), newProduct.getName());
+    }
+
+    @Test
+    @DisplayName("Delete a product by id")
+    public void deleteById() {
+        db.insert(new Product(1, "Coca Cola 3lt"));
+        db.insert(new Product(2, "Gansito"));
+        db.insert(new Product(3, "Mordisko"));
+
+        boolean isDeleted = db.deleteById(2);
+
+        assertTrue(isDeleted);
+        assertNull(db.getById(2));
+    }
+
+    @Test
+    @DisplayName("Fail to delete a product by non-existing id")
+    public void failToDeleteByNonExistingId() {
+        db.insert(new Product(1, "Coca Cola 3lt"));
+        db.insert(new Product(2, "Gansito"));
+
+        boolean isDeleted = db.deleteById(3);
+
+        assertFalse(isDeleted);
+    }
+
 }
