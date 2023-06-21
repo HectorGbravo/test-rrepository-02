@@ -1,7 +1,7 @@
-# nombre que recibe el pipeline
+# El nombre que recibe el pipeline
 name: Integracion Continua
 
-# los pasos para ejecutar el pipeline
+# Los pasos para ejecutar el pipeline
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -23,4 +23,4 @@ jobs:
 on:
   push:
     branches:
-      - main
+      - master
